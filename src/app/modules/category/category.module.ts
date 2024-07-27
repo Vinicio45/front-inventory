@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { CategoryComponent } from './component/category/category.component';
 import { MaterialModule } from '../shared/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NewCategoryComponent } from './component/new-category/new-category.component';
 
 
 
 @NgModule({
   declarations: [
-    CategoryComponent
+    CategoryComponent,
+    NewCategoryComponent
   ],
   imports: [
     CommonModule,
