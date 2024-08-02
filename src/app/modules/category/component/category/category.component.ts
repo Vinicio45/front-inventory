@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CategoryService } from '../../../shared/services/category.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 
@@ -15,6 +15,7 @@ export class CategoryComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private snackBar = inject(MatSnackBar);
   readonly dialog = inject(MatDialog);
+
 
   ngOnInit(): void {
     this.getCategories();
@@ -64,11 +65,31 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  edit(id:number,name:String,description:String){
+    const dialogRef = this.dialog.open(NewCategoryComponent, {
+      width: '500px',
+      data:{id:id, name:name, description:description}
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+
+      if(result == 1){
+        this.openSanckBar("Categoria actualizada", "Exitosa")
+        this.getCategories();
+      } else if(result == 2){
+        this.openSanckBar("Error: no se pudo actualizar", "Error")
+      }
+      
+    });  
+  }
+
   openSanckBar(message: string, action: string) : MatSnackBarRef<SimpleSnackBar>{
     return this.snackBar.open(message, action, {
       duration: 2000 
     })
   }
+
+
 
 
 
